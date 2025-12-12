@@ -21,30 +21,25 @@ The project includes:
 
 ---
 
+```markdown
 ## Repository Structure
-
-VAE PROJECT/
-├── data/
-│   ├── breast-rsem-fpkm-gtex.txt
-│   ├── brca-rsem-fpkm-tcga.txt
-│   └── brca-rsem-fpkm-tcga-t.txt
-│
+```
+```text
+brca-multitask-vae-gene-panels/
+├── data/                       # raw data goes here (ignored by git; see Data section)
 ├── figures/
-│   ├── article/
-│   ├── gene_panel/
-│   └── mhvae/
-│
+│   ├── article/                # paper-reproduction figures
+│   ├── gene_panel/             # gene-panel experiments figures
+│   └── mhvae/                  # multi-head VAE figures
 ├── notebooks/
 │   ├── 01_VAE_Article_Reproduction.ipynb
 │   ├── 02_MultiHead_VAE_Diagnosis_Subtype.ipynb
 │   └── 03_Gene_Panel_Analysis.ipynb
-│
 ├── thesis/
 │   └── Multi_task_Variational_Autoencoders_for_Breast_Cancer_Detection_draft.pdf
-│
-├── requirements.txt
-└── README.md
-
+├── requirements.txt            # python dependencies
+└── README.md                   # you are here
+```
 ---
 
 ## Data Notes (Important)
@@ -77,25 +72,26 @@ pip install -r requirements.txt
 	2.	notebooks/02_MultiHead_VAE_Diagnosis_Subtype.ipynb
 	3.	notebooks/03_Gene_Panel_Analysis.ipynb
 ```
-⸻
+---
 
-Key Results Summary (Representative Runs)
+# Key Results Summary (Representative Runs)
 
 Note: Results can vary slightly across random seeds due to stochastic optimization.
 For thesis-level reporting, run multiple seeds and report mean ± std.
 The figures in figures/ correspond to representative runs.
 
-Experiment	Notebook	Metric(s)	Output Figures
-VAE anomaly detection (paper-style)	01_...	ROC-AUC, reconstruction error distribution, confusion matrix	figures/article/ROC_VAE_anomaly_detector.png, figures/article/Reconstruction_error_distribution.png, figures/article/CM_Article_Aproach.png
-Multi-head VAE diagnosis	02_...	ROC-AUC, confusion matrix	figures/mhvae/ROC-curve-multyheadVAE.png, figures/mhvae/20-ROC-CM-MHVAE.png
-Multi-head VAE PAM50 subtypes	02_...	per-class precision/recall/F1, confusion matrix	figures/mhvae/MHVAE-CM-subtypeclassification.png
-L1 logistic baseline (diagnosis)	03_...	ROC-AUC, confusion matrix	figures/gene_panel/ROC-L1logisticregression.png, figures/gene_panel/LR-all-base-genes-diagnosis.png
-VAE anomaly detection across gene panels	03_...	test ROC-AUC across panels	figures/gene_panel/test-AUC-across-gene-panels.png
+| Experiment | Notebook | Metric(s) | Output Figures |
+|---|---|---|---|
+| VAE anomaly detection (paper-style) | `notebooks/01_VAE_Article_Reproduction.ipynb` | ROC-AUC, reconstruction error distribution, confusion matrix | [`ROC`](figures/article/ROC_VAE_anomaly_detector.png), [`Error dist`](figures/article/Reconstruction_error_distribution.png), [`CM`](figures/article/CM_Article_Aproach.png) |
+| Multi-head VAE diagnosis | `notebooks/02_MultiHead_VAE_Diagnosis_Subtype.ipynb` | ROC-AUC, confusion matrix | [`ROC+CM`](figures/mhvae/20-ROC-CM-MHVAE.png), [`ROC`](figures/mhvae/ROC-curve-multyheadVAE.png) |
+| Multi-head VAE PAM50 subtypes | `notebooks/02_MultiHead_VAE_Diagnosis_Subtype.ipynb` | per-class precision/recall/F1, confusion matrix | [`Subtype CM`](figures/mhvae/MHVAE-CM-subtypeclassification.png) |
+| L1 logistic baseline (diagnosis) | `notebooks/03_Gene_Panel_Analysis.ipynb` | ROC-AUC, confusion matrix | [`ROC`](figures/gene_panel/ROC-L1logisticregression.png), [`CM`](figures/gene_panel/LR-all-base-genes-diagnosis.png) |
+| VAE anomaly detection across gene panels | `notebooks/03_Gene_Panel_Analysis.ipynb` | test ROC-AUC across panels | [`Panel AUCs`](figures/gene_panel/test-AUC-across-gene-panels.png) |
 
 
-⸻
+---
 
-1️ Paper Reproduction: VAE Anomaly Detection (Normals → Tumors)
+# Paper Reproduction: VAE Anomaly Detection (Normals → Tumors)
 
 This notebook reproduces the core idea from the original paper-style approach:
 	•	Train a VAE on normal samples only
@@ -113,9 +109,9 @@ Main outputs:
 
 
 
-⸻
+---
 
-2️ Multi-Head VAE: Shared Latent Space for Diagnosis + PAM50 Subtype
+# Multi-Head VAE: Shared Latent Space for Diagnosis + PAM50 Subtype
 
 This is the core contribution of the thesis.
 
@@ -149,9 +145,9 @@ Latent space visualization (UMAP):
 
 
 
-⸻
+---
 
-3️ Gene Panel Analysis: Sparse Biomarkers + Anomaly Detection
+# Gene Panel Analysis: Sparse Biomarkers + Anomaly Detection
 
 This notebook explores interpretability and minimal gene sets.
 
@@ -166,7 +162,7 @@ This acts as:
 	•	a gene panel selection method that is typically more stable than SHAP in small datasets
 
 <p align="center">
-  <img src="figures/gene_panel/ROC-L1logisticregression.png" width="48%">
+  <img src="figures/gene_panel/ROC-L1logesticregression.png" width="48%">
   <img src="figures/gene_panel/LR-all-base-genes-diagnosis.png" width="48%">
 </p>
 
@@ -193,20 +189,19 @@ UMAP comparison of panels:
 
 
 
-⸻
+---
+# Experimental Integrity Checklist (No Leakage / No Hidden Tuning)
+	• No using test as validation_data
+	• Feature selection computed on TRAIN only
+	• Scaling fit on TRAIN only
+	• Anomaly threshold tuned on VAL, evaluated once on TEST
+	• PAM50 subtype loss uses masking (ignores NA labels)
+	• Domain shift awareness: GTEx vs TCGA normals are not identical distributions
+	• Strong baselines included (L1 logistic regression; CV + shuffled-label sanity checks)
 
- Experimental Integrity Checklist (No Leakage / No Hidden Tuning)
-	•	No using test as validation_data
-	•	Feature selection computed on TRAIN only
-	•	Scaling fit on TRAIN only
-	•	Anomaly threshold tuned on VAL, evaluated once on TEST
-	•	PAM50 subtype loss uses masking (ignores NA labels)
-	•	Domain shift awareness: GTEx vs TCGA normals are not identical distributions
-	•	Strong baselines included (L1 logistic regression; CV + shuffled-label sanity checks)
+---
 
-⸻
-
-How to Reproduce the Exact Figures / Numbers
+# How to Reproduce the Exact Figures / Numbers
 
 For reproducibility:
 	1.	Run notebooks in the recommended order.
@@ -226,9 +221,9 @@ Which notebook generates which figures
 
 If you regenerate figures, ensure filenames match those referenced in this README.
 
-⸻
+---
 
-Limitations (Honest Reporting)
+# Limitations 
 	•	Domain shift (GTEx vs TCGA) can inflate/alter diagnosis signals if not handled carefully.
 	•	Cancer vs normal separation may be nearly linearly separable in this dataset; hence, the thesis emphasizes:
 	•	multi-task learning,
@@ -238,22 +233,16 @@ Limitations (Honest Reporting)
 rather than “accuracy alone”.
 	•	This project focuses on one cancer type (BRCA); external validation on independent cohorts is future work.
 
-⸻
+---
 
-Thesis Document
+# Thesis Document
 
 A draft is included at:
-	•	thesis/Multi_task_Variational_Autoencoders_for_Breast_Cancer_Detection_draft.pdf
+- [Open the thesis draft (PDF)](thesis/Multi_task_Variational_Autoencoders_for_Breast_Cancer_Detection_draft.pdf)
 
-⸻
+---
 
-Citation
-
-If you use or reference this project, please cite the thesis and the original paper reproduced in 01_VAE_Article_Reproduction.ipynb.
-
-⸻
-
-Contact
+# Contact
 
 If you have questions about the code or experiments, feel free to open an issue or contact me.
 
