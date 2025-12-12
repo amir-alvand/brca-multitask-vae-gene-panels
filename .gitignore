@@ -1,0 +1,23 @@
+# Data (do not commit)
+data/raw/
+data/raw/breast-rsem-fpkm-gtex.txt
+data/raw/brca-rsem-fpkm-tcga.txt
+data/raw/brca-rsem-fpkm-tcga-t.txt
+*.tsv
+*.csv
+
+# Notebooks checkpoints
+.ipynb_checkpoints/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environments
+.venv/
+venv/
+env/

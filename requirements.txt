@@ -1,0 +1,27 @@
+# Core scientific stack
+numpy>=1.23
+pandas>=1.5
+scipy>=1.10
+
+# Machine learning
+scikit-learn>=1.2
+
+# Deep learning (Multi-head VAE)
+tensorflow>=2.12
+
+# Visualization
+matplotlib>=3.7
+seaborn>=0.12
+
+# Dimensionality reduction / embedding plots
+umap-learn>=0.5.3
+
+# Explainability (optional if you no longer use SHAP)
+shap>=0.43
+
+# Notebook environment
+jupyter>=1.0
+ipykernel>=6.0
+
+# Utilities
+tqdm>=4.65
