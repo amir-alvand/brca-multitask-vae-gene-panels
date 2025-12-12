@@ -76,10 +76,10 @@ pip install -r requirements.txt
 	1.	notebooks/01_VAE_Article_Reproduction.ipynb
 	2.	notebooks/02_MultiHead_VAE_Diagnosis_Subtype.ipynb
 	3.	notebooks/03_Gene_Panel_Analysis.ipynb
-
+```
 ⸻
 
-🏁 Key Results Summary (Representative Runs)
+Key Results Summary (Representative Runs)
 
 Note: Results can vary slightly across random seeds due to stochastic optimization.
 For thesis-level reporting, run multiple seeds and report mean ± std.
@@ -240,7 +240,7 @@ rather than “accuracy alone”.
 
 ⸻
 
-🎓 Thesis Document
+Thesis Document
 
 A draft is included at:
 	•	thesis/Multi_task_Variational_Autoencoders_for_Breast_Cancer_Detection_draft.pdf
