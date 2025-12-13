@@ -94,10 +94,12 @@ The figures in figures/ correspond to representative runs.
 # Paper Reproduction: VAE Anomaly Detection (Normals → Tumors)
 
 This notebook reproduces the core idea from the original paper-style approach:
+
 	•	Train a VAE on normal samples only
 	•	Use reconstruction error as an anomaly score to detect tumors
 
 Main outputs:
+
 	•	reconstruction error distribution
 	•	anomaly ROC curve
 	•	confusion matrix at a validation-tuned threshold
@@ -116,6 +118,7 @@ Main outputs:
 This is the core contribution of the thesis.
 
 Model summary
+
 	•	Shared encoder → latent variables (z_mean, z_log_var)
 	•	Decoder for reconstruction (VAE objective)
 	•	Two supervised heads on latent z:
@@ -123,6 +126,7 @@ Model summary
 	•	Subtype head: PAM50 classification (multiclass; trained only where labels exist via masking)
 
 Key design choices
+
 	•	Multi-task loss balancing: reconstruction + KL + supervised losses
 	•	Subtype head uses:
 	•	masking (ignore NA labels in loss)
@@ -154,10 +158,12 @@ This notebook explores interpretability and minimal gene sets.
 A) Sparse linear baselines (L1 logistic regression)
 
 We train L1-regularized logistic regression models for:
+
 	•	Diagnosis (cancer vs normal): yields sparse cancer-oriented gene panels
 	•	Subtype classification (tumors with PAM50 labels only): yields subtype-associated genes
 
 This acts as:
+
 	•	a strong baseline
 	•	a gene panel selection method that is typically more stable than SHAP in small datasets
 
@@ -170,6 +176,7 @@ This acts as:
 B) VAE anomaly detection across different panels
 
 We evaluate VAE anomaly detection under different feature sets, e.g.:
+
 	•	cancer-oriented L1 panel
 	•	normal-oriented panel (variance/mean-based)
 	•	larger normal panels (K=100)
@@ -204,6 +211,7 @@ UMAP comparison of panels:
 # How to Reproduce the Exact Figures / Numbers
 
 For reproducibility:
+
 	1.	Run notebooks in the recommended order.
 	2.	Use fixed seeds where provided.
 	3.	Save figures to figures/... folders.
@@ -211,10 +219,12 @@ For reproducibility:
 Seed control
 
 Where supported, set:
+
 	•	NumPy seed: np.random.seed(SEED)
 	•	TensorFlow seed: tf.random.set_seed(SEED)
 
 Which notebook generates which figures
+
 	•	01_VAE_Article_Reproduction.ipynb → figures/article/*
 	•	02_MultiHead_VAE_Diagnosis_Subtype.ipynb → figures/mhvae/*
 	•	03_Gene_Panel_Analysis.ipynb → figures/gene_panel/*
@@ -231,6 +241,7 @@ If you regenerate figures, ensure filenames match those referenced in this READM
 	•	subtype modeling,
 	•	gene panel interpretability,
 rather than “accuracy alone”.
+
 	•	This project focuses on one cancer type (BRCA); external validation on independent cohorts is future work.
 
 ---
